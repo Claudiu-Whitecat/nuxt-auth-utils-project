@@ -4,10 +4,10 @@ export const users = sqliteTable('users', (t) => ({
   id: t.integer().primaryKey({ autoIncrement: true }),
   name: t.text().notNull(),
   email: t.text().notNull().unique(),
-  passwordHas: t.text().notNull(),
-  createAt: t.integer({mode:'timestamp_ms'})
-    .$defaultFn(() => new Date()),
-  updateAt: t.integer({mode:'timestamp_ms'})
-  .$defaultFn(() => new Date())
-  .$onUpdate(() => new Date()),
+  passwordHash: t.text().notNull(),
+  createAt: t.integer({ mode: 'timestamp_ms' }).$defaultFn(() => new Date()),
+  updateAt: t
+    .integer({ mode: 'timestamp_ms' })
+    .$defaultFn(() => new Date())
+    .$onUpdate(() => new Date()),
 }));
