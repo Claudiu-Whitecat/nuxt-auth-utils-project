@@ -1,6 +1,7 @@
 <script lang="ts" setup>
   import type { FormSubmitEvent } from '@nuxt/ui';
   import { z } from 'zod/v4';
+  import register from '~/pages/auth/register.vue';
 
   const schema = z
     .object({
@@ -26,9 +27,34 @@
     password: '',
     passwordConfirm: '',
   });
+  const toast = useToast();
+  const loading = ref(false);
 
   async function onRegister(event: FormSubmitEvent<Schema>) {
-    console.log(event.data);
+    try {
+      loading.value = true;
+      const response = await $fetch('/api/auth/register', {
+        method: 'POST',
+        body: {
+          name: event.data.name,
+          email: event.data.email,
+          password: event.data.password,
+        },
+      });
+      console.log(response.success);
+      if (!response.success) {
+        throw new Error('Registration failed.');
+      }
+      await navigateTo('/');
+    } catch {
+      toast.add({
+        color: 'error',
+        title: 'Failed to create account',
+        description: 'Please check your details and try again!',
+      });
+    } finally {
+      loading.value = false;
+    }
   }
 </script>
 <template>
@@ -66,7 +92,7 @@
             required
           />
         </UFormField>
-        <UButton type="submit">Register</UButton>
+        <UButton :loading type="submit">Register</UButton>
       </UForm>
     </div>
   </div>

@@ -15,7 +15,7 @@ export function useSeoMetadata({
 }: SiteMetadata) {
   const route = useRoute();
   const ogUrl = process.env.BASE_URL + route.fullPath;
-  const siteName = 'Placeholder';
+  const siteName = 'Learning stuff';
 
   useSeoMeta({
     title,

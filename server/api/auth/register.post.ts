@@ -26,5 +26,6 @@ export default defineEventHandler(async (event) => {
     },
     lastLoggedIn: new Date(),
   });
+
   return { success: true };
 });

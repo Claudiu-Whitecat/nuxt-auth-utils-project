@@ -3,7 +3,25 @@
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## Setup
+Make sure to run database migrations:
 
+```bash
+# npm
+npm run migrations:generate
+npm run migrations:migrate
+
+# pnpm
+pnpm migrations:generate
+pnpm migrations:migrate
+
+# yarn
+yarn migrations:generate
+yarn migrations:migrate
+
+# bun
+bun run migrations:generate
+bun run migrations:migrate
+```
 Make sure to install dependencies:
 
 ```bash

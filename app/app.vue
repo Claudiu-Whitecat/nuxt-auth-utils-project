@@ -2,8 +2,8 @@
   import { useSeoMetadata } from '~/composables/useSeoMeta';
 
   useSeoMetadata({
-    title: 'Placeholder',
-    description: 'Placeholder',
+    title: 'Nuxt Auth Utils',
+    description: 'Trying to implement auth with nuxt-auth-utils',
     ogImage: '/images/og-meta.jpg',
     ogType: 'website',
     twitterCard: 'summary',
