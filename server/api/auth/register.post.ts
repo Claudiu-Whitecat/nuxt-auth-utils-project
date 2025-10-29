@@ -9,6 +9,19 @@ const registerSchema = z.object({
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, registerSchema.parse);
+
+  const existingUser = await db.query.users.findFirst({
+    where: (users, { eq }) => eq(users.email, body.email),
+  });
+  if (existingUser) {
+    throw createError({
+      statusCode: 409, // Conflict
+      statusMessage: 'Email already registered',
+      data: {
+        code: 'EMAIL_EXISTS',
+      },
+    });
+  }
   const hashedPassword = await hashPassword(body.password);
   const [user] = await db
     .insert(tables.users)
@@ -17,7 +30,10 @@ export default defineEventHandler(async (event) => {
       name: body.name,
       passwordHash: hashedPassword,
     })
-    .returning();
+    .returning({
+      id: tables.users.id,
+      name: tables.users.name,
+    });
 
   await setUserSession(event, {
     user: {

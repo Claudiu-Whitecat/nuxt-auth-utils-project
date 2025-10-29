@@ -41,16 +41,22 @@
           password: event.data.password,
         },
       });
-      console.log(response.success);
+
       if (!response.success) {
         throw new Error('Registration failed.');
       }
       await navigateTo('/');
-    } catch {
+    } catch (error) {
+      let errorTitle = 'Failed to create account';
+      let errorDescription = 'Please check your details and try again!';
+      if (error.statusCode === 409) {
+        errorTitle = error.statusMessage;
+        errorDescription = 'Try and login instead!';
+      }
       toast.add({
         color: 'error',
-        title: 'Failed to create account',
-        description: 'Please check your details and try again!',
+        title: errorTitle,
+        description: errorDescription,
       });
     } finally {
       loading.value = false;
@@ -92,7 +98,7 @@
             required
           />
         </UFormField>
-        <UButton :loading type="submit">Register</UButton>
+        <UButton :loading type="submit" class="text-white">Register</UButton>
       </UForm>
     </div>
   </div>
